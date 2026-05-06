@@ -63,16 +63,16 @@ export default function Publications() {
                   </p>
                 )}
                 {pub.link && (
-                  
-                    href={pub.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-light hover:text-muted-foreground transition-colors"
-                  >
-                    <ExternalLink className="size-4" />
-                    View Paper
-                  </a>
-                )}
+                <a
+                  href={pub.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-light hover:text-muted-foreground transition-colors"
+                >
+                  <ExternalLink className="size-4" />
+                  View Paper
+                </a>
+              )}
               </motion.div>
             ))}
           </div>
