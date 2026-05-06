@@ -70,16 +70,14 @@ function TimelineItem({ title, organisation, period, description, index, isLast 
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      {/* Dot and line */}
+      {/* Dot and line — always visible, fixed height */}
       <div className="flex flex-col items-center">
         <div className="size-2 rounded-full bg-red-500 mt-1.5 shrink-0 z-10" />
-        {!isLast && (
-          <div className="w-px flex-1 bg-red-500/30 mt-2" />
-        )}
+        <div className="w-px h-8 bg-red-500/30 mt-2" />
       </div>
 
-      {/* Card */}
-      <div className={`pb-8 ${isLast ? '' : ''}`}>
+      {/* Card — flex-1 min-w-0 forces consistent width */}
+      <div className="pb-8 flex-1 min-w-0">
         <div className="border border-border rounded-sm p-4 space-y-2 hover:bg-accent/50 transition-colors">
           <h3 className="text-base font-light tracking-wide">{title}</h3>
           <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
@@ -92,7 +90,7 @@ function TimelineItem({ title, organisation, period, description, index, isLast 
               {period}
             </span>
           </div>
-          <p className="text-sm font-light text-muted-foreground leading-relaxed">
+          <p className="text-sm font-light text-muted-foreground leading-relaxed line-clamp-3">
             {description}
           </p>
         </div>
