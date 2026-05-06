@@ -24,13 +24,13 @@ export default function Home() {
 
           <div className="relative text-center space-y-6 max-w-4xl px-6">
             <motion.h1
-              className="text-6xl md:text-8xl lg:text-9xl font-extralight tracking-[0.25em] leading-[0.9]"
+              className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-extralight tracking-[0.15em] leading-[1.1]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
               <span className="block">{firstName.toUpperCase()}</span>
-              <span className="block">{lastName.toUpperCase()}</span>
+              <span className="block whitespace-nowrap">{lastName.toUpperCase()}</span>
             </motion.h1>
 
             <motion.p
