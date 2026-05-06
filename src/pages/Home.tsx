@@ -60,9 +60,11 @@ export default function Home() {
                 </h2>
 
                 <div className="space-y-4 text-lg font-light leading-relaxed text-muted-foreground">
-                  <p>
-                    {photographerInfo.biography.split('\n\n')[0]}
-                  </p>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: photographerInfo.biography.split('\n\n')[0],
+                    }}
+                  />
                 </div>
 
                 <Link
