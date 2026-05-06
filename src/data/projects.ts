@@ -393,7 +393,7 @@ export const projects: Project[] = [
   category: 'compliant-mechanisms',
   year: '2024',
   slug: 'compliant-chronograph',
-  coverImage: '/images/flexous-watch.jpg', // replace with your actual image path
+  coverImage: '/images/Flexous.png', // replace with your actual image path
 
   description: 'Master thesis project conducted with Flexous Mechanisms, focused on the design and optimisation of a compliant horizontal clutch and braking system for mechanical chronographs. The work explores how compliant mechanisms—achieving motion through elastic deformation rather than rigid joints—can improve precision by reducing backlash, friction, and lubrication requirements in watchmaking applications.',
 
