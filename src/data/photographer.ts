@@ -4,7 +4,7 @@ export const photographerInfo: PhotographerInfo = {
   name: 'Josh van \'t Sant',
   tagline: 'Design Engineer',
   heroIntroduction: 'Passionate about designing soft bio-inspired robotics.',
-  biography: `Josh van \'t Sant is a problem solver with a varied experience in consulting and project management. Passionate about design, he has currently pursuing further research work in the field of soft robotics.',
+  biography: "Josh van 't Sant is a problem solver with a varied experience in consulting and project management. Passionate about design, he has currently pursuing further research work in the field of soft robotics.",
   awards: [
     'International Photography Awards - Editorial Photographer of the Year 2023',
     'PDN Photo Annual - Winner 2022',
@@ -13,7 +13,7 @@ export const photographerInfo: PhotographerInfo = {
   ],
   experience: [
     'TU Delft',
-    'ISISpace,
+    'ISISpace',
     'Flexous'
   ],
   education: 'Master in Mechanical Engineering, TU Delft',
