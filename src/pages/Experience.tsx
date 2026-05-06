@@ -72,9 +72,9 @@ function TimelineItem({ title, organisation, period, description, index, isLast 
     >
       {/* Dot and line */}
       <div className="flex flex-col items-center">
-        <div className="size-2 rounded-full bg-foreground/40 mt-1.5 shrink-0 z-10" />
+        <div className="size-2 rounded-full bg-red-500 mt-1.5 shrink-0 z-10" />
         {!isLast && (
-          <div className="w-px flex-1 bg-border mt-2" />
+          <div className="w-px flex-1 bg-red-500/30 mt-2" />
         )}
       </div>
 
