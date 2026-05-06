@@ -2,9 +2,9 @@ import type { PhotographerInfo } from '@/types';
 
 export const photographerInfo: PhotographerInfo = {
   name: 'Josh van \'t Sant',
-  tagline: 'Design Engineer',
+  tagline: 'Mechanical Design Engineer',
   heroIntroduction: 'Passionate about designing soft bio-inspired robotics.',
-  biography: "Josh van 't Sant is a problem solver with a varied experience in consulting and project management. Passionate about design, he has currently pursuing further research work in the field of soft robotics.",
+  biography: "I am primarily a problem solver. Finding how to solve the problems led me to become a researcher, prototype designer, and an interdisciplinary engineer. My research interests include soft robotics, emboddied intelligence, and compliant mechanisms. I am passionate about bio-inspired design and am currently working as a research assistant at the [BioMorphic Intelligence Lab](https://www.tudelft.nl/en/ai/biomorphic-intelligence-lab#c864973). I am open to PhD opportunities, research collaborations, and design engineering roles so please feel free to connect.",
   awards: [
     'International Photography Awards - Editorial Photographer of the Year 2023',
     'PDN Photo Annual - Winner 2022',
