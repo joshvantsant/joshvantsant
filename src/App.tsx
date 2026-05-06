@@ -63,6 +63,22 @@ function AnimatedRoutes() {
           }
         />
         <Route
+          path="/experience"
+          element={
+            <PageTransition>
+              <Experience />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/publications"
+          element={
+            <PageTransition>
+              <Publications />
+            </PageTransition>
+          }
+        />
+        <Route
           path="/contact"
           element={
             <PageTransition>
