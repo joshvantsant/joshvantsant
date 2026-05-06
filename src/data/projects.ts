@@ -343,7 +343,79 @@ export const projects: Project[] = [
         aspectRatio: 'landscape'
       }
     ]
+  },
+  {
+    id: '9',
+    title: 'Soft Robotic Space Gripper',
+    category: 'soft robotics',
+    year: '2025-2026',
+    slug: 'soft-space-gripper',
+    // Photo by Zain Creations on Unsplash
+    coverImage: 'https://images.unsplash.com/photo-1733496637708-9470e9c8cfe2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjB8&ixlib=rb-4.1.0&q=80&w=1080',
+    description: 'An exploration of the stark beauty and quiet majesty of the American Southwest. This series captures the interplay of light, shadow, and ancient geological formations that define the desert landscape.',
+    client: 'National Geographic',
+    camera: 'Hasselblad X2D 100C',
+    location: 'Arizona & Utah',
+    images: [
+      {
+        id: '9-1',
+        // Photo by Joe Dudeck on Unsplash
+        src: 'https://images.unsplash.com/photo-1610142004358-e4e987e4c5af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjF8&ixlib=rb-4.1.0&q=80&w=1080',
+        alt: 'Desert canyon at golden hour',
+        aspectRatio: 'landscape'
+      },
+      {
+        id: '9-2',
+        // Photo by Giorgio Fouarge on Unsplash
+        src: 'https://images.unsplash.com/photo-1705321217071-b1b6672fa23c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjF8&ixlib=rb-4.1.0&q=80&w=1080',
+        alt: 'Sand dunes in morning light',
+        aspectRatio: 'portrait'
+      },
+      {
+        id: '9-3',
+        // Photo by Astroby krishna on Unsplash
+        src: 'https://images.unsplash.com/photo-1727319384541-8b96ca1526e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjF8&ixlib=rb-4.1.0&q=80&w=1080',
+        alt: 'Rock formations under starry sky',
+        aspectRatio: 'landscape'
+      },
+      {
+        id: '9-4',
+        // Photo by Ilker Ozmen on Unsplash
+        src: 'https://images.unsplash.com/photo-1725986951716-75fb278ecaec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjJ8&ixlib=rb-4.1.0&q=80&w=1080',
+        alt: 'Desert vista at sunset',
+        aspectRatio: 'square'
+      }
+    ]
+  },
+  {
+  id: '10',
+  title: 'Compliant Chronograph Mechanism',
+  category: 'compliant-mechanisms',
+  year: '2024',
+  slug: 'compliant-chronograph',
+  coverImage: '/images/flexous-watch.jpg', // replace with your actual image path
+
+  description: 'Master thesis project conducted with Flexous Mechanisms, focused on the design and optimisation of a compliant horizontal clutch and braking system for mechanical chronographs. The work explores how compliant mechanisms—achieving motion through elastic deformation rather than rigid joints—can improve precision by reducing backlash, friction, and lubrication requirements in watchmaking applications.',
+
+  client: 'Flexous Mechanisms · TU Delft',
+  location: 'Delft, Netherlands',
+
+  skills: [
+    'Compliant Mechanism Design',
+    'Finite Element Analysis (ANSYS APDL)',
+    'SolidWorks CAD',
+    'Additive Manufacturing (3D Printing)',
+    'Mechanical Testing',
+    'Precision Engineering'
+  ],
+
+  notes: 'Full thesis results are under company embargo until October 2025. This project highlights methodology and engineering approach without disclosing proprietary results.',
+
+  link: {
+    label: 'Flexous Mechanisms',
+    url: 'https://flexous.com' // replace if needed
   }
+}
 ];
 
 // Helper function to get project by slug
