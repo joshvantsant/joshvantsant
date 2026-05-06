@@ -7,13 +7,13 @@ const education = [
     title: 'MSc in Mechanical Engineering',
     organisation: 'TU Delft',
     period: '2022 – 2024',
-    description: 'Specialisation in medical devices and compliant mechanisms. Thesis on soft robotic systems.',
+    description: 'Specialisation in BioMechanical Deisgn and master thesis on compliant mechanisms.',
   },
   {
     title: 'BE(Hons) in Mechatronics Engineering',
     organisation: 'University of Canterbury',
     period: '2014 – 2018',
-    description: 'Specialisation in robotics and final project in medical devices.',
+    description: 'Specialisation in robotics and bachelor thesis on medical device design.',
   },
 ];
 
