@@ -10,7 +10,9 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
-
+  const [firstName, ...rest] = photographerInfo.name.split(' ');
+  const lastName = rest.join(' ');
+  
   return (
     <>
       <SEOHead />
