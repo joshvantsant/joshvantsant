@@ -27,13 +27,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <span className="block">
-                {(photographerInfo.firstName ?? '').toUpperCase()}
-              </span>
-            
-              <span className="block">
-                {(photographerInfo.lastName ?? '').toUpperCase()}
-              </span>
+              <span className="block">{firstName.toUpperCase()}</span>
+              <span className="block">{lastName.toUpperCase()}</span>
             </motion.h1>
 
             <motion.p
