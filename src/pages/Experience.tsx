@@ -1,103 +1,89 @@
-export default function ExperiencePage() {
-  const education = experience.filter(e => e.type === 'education');
-  const research = experience.filter(e => e.subtype === 'research');
-  const industrial = experience.filter(e => e.subtype === 'industrial');
+import { motion } from 'framer-motion';
+import { SEOHead } from '@/components/seo/SEOHead';
 
+const experience = [
+  {
+    type: 'education',
+    title: 'MSc in Mechanical Engineering',
+    organisation: 'TU Delft',
+    period: '2022 – 2024',
+    description: 'Specialisation in medical devices and compliant mechanisms.',
+  },
+  {
+    type: 'work',
+    subtype: 'research',
+    title: 'Research Assistant',
+    organisation: 'TU Delft · BioMorphic Intelligence Lab',
+    period: "Jul '25 – present",
+    description: 'Development of soft robotic grippers and bio-inspired systems.',
+  },
+  {
+    type: 'work',
+    subtype: 'industrial',
+    title: 'Space & Mechanical Design Engineer',
+    organisation: 'ISISpace',
+    period: "Jul '25 – Dec '25",
+    description: 'Space hardware design and mechanical system development.',
+  }
+];
+
+export default function Experience() {
   return (
-    <div className="min-h-screen px-6 lg:px-8 py-24">
-      <div className="max-w-6xl mx-auto">
+    <>
+      <SEOHead
+        title="Experience"
+        description="Education, research, and professional engineering experience of Josh van 't Sant."
+      />
+
+      <div className="min-h-screen">
 
         {/* HEADER */}
-        <div className="text-center mb-20">
-          <h1 className="text-5xl md:text-7xl font-light tracking-wide">
-            Experience
-          </h1>
-          <p className="text-muted-foreground mt-4 font-light">
-            Education, research, and professional experience
-          </p>
-        </div>
-
-        {/* CV GRID */}
-        <div className="grid md:grid-cols-2 gap-16">
-
-          {/* LEFT COLUMN — EDUCATION */}
-          <div>
-            <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-8">
-              Education
-            </h2>
-
-            <div className="space-y-10 border-l border-border pl-6">
-              {education.map((item, i) => (
-                <div key={i} className="relative">
-                  
-                  {/* timeline dot */}
-                  <div className="absolute -left-[34px] top-1 w-2 h-2 rounded-full bg-foreground" />
-
-                  <p className="text-sm text-muted-foreground">{item.period}</p>
-                  <h3 className="text-lg font-light mt-1">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.organisation}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </p>
-
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN — EXPERIENCE */}
-          <div>
-            <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-8">
+        <section className="py-24 md:py-32 px-6 lg:px-8 border-b border-border">
+          <div className="max-w-4xl mx-auto text-center space-y-4">
+            <h1 className="text-5xl md:text-7xl font-light tracking-wide">
               Experience
-            </h2>
+            </h1>
+            <p className="text-muted-foreground font-light text-lg">
+              Education, research, and professional work
+            </p>
+          </div>
+        </section>
 
-            {/* Research */}
-            <div className="mb-12">
-              <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
-                Research
-              </h3>
+        {/* CONTENT */}
+        <section className="py-16 px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto space-y-6">
 
-              <div className="space-y-10 border-l border-border pl-6">
-                {research.map((item, i) => (
-                  <div key={i} className="relative">
-                    <div className="absolute -left-[34px] top-1 w-2 h-2 rounded-full bg-foreground" />
+            {experience.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="border border-border rounded-sm p-6 space-y-2"
+              >
+                <div className="flex justify-between gap-4">
+                  <h3 className="text-lg font-light">
+                    {item.title}
+                  </h3>
+                  <span className="text-xs text-muted-foreground shrink-0">
+                    {item.period}
+                  </span>
+                </div>
 
-                    <p className="text-sm text-muted-foreground">{item.period}</p>
-                    <h3 className="text-lg font-light mt-1">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.organisation}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+                <p className="text-sm text-muted-foreground">
+                  {item.organisation}
+                </p>
 
-            {/* Industrial */}
-            <div>
-              <h3 className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
-                Industrial
-              </h3>
-
-              <div className="space-y-10 border-l border-border pl-6">
-                {industrial.map((item, i) => (
-                  <div key={i} className="relative">
-                    <div className="absolute -left-[34px] top-1 w-2 h-2 rounded-full bg-foreground" />
-
-                    <p className="text-sm text-muted-foreground">{item.period}</p>
-                    <h3 className="text-lg font-light mt-1">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.organisation}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
 
           </div>
-        </div>
+        </section>
+
       </div>
-    </div>
+    </>
   );
 }
