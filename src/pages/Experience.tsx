@@ -10,10 +10,10 @@ const education = [
     description: 'Specialisation in medical devices and compliant mechanisms. Thesis on soft robotic systems.',
   },
   {
-    title: 'BSc in Mechanical Engineering',
-    organisation: 'TU Delft',
-    period: '2019 – 2022',
-    description: 'Add your BSc details here.',
+    title: 'BE(Hons) in Mechatronics Engineering',
+    organisation: 'University of Canterbury',
+    period: '2014 – 2018',
+    description: 'Specialisation in robotics and final project in medical devices.',
   },
 ];
 
@@ -23,6 +23,12 @@ const researchExperience = [
     organisation: 'TU Delft · BioMorphic Intelligence Lab',
     period: "Jul '25 – present",
     description: 'Development of soft robotic grippers and bio-inspired systems for adaptive manipulation.',
+  },
+  {
+    title: 'Thesis Project',
+    organisation: 'Flexous',
+    period: "Dec '23 – Oct '24",
+    description: 'Development of compliant chronograph mechanism for a mechanical watch.',
   },
 ];
 
@@ -34,10 +40,16 @@ const industryExperience = [
     description: 'Space hardware design and mechanical system development for small satellite platforms.',
   },
   {
-    title: 'Design Engineer',
-    organisation: 'Flexous',
-    period: "...",
-    description: 'Add details here.',
+    title: 'Engineering Consultant & Project Manager',
+    organisation: 'Health New Zealand | Te Whatu Ora Te Matau a Māui',
+    period: "Jun '20 - Aug '22",
+    description: "Provided engineering skills and project management for multiple projects at the main hospital in Hawke's Bay.",
+  },
+  {
+    title: 'Mechanical Design Consultant',
+    organisation: 'Brevity',
+    period: "Jan '18 - Jan '20",
+    description: "Designed, managed, and delivered multiple mechanical projects across industries and cities in New Zealand.",
   },
 ];
 
