@@ -22,12 +22,18 @@ export default function Home() {
 
           <div className="relative text-center space-y-6 max-w-4xl px-6">
             <motion.h1
-              className="text-6xl md:text-8xl lg:text-9xl font-extralight tracking-widest"
+              className="text-6xl md:text-8xl lg:text-9xl font-extralight tracking-widest leading-none"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              {photographerInfo.name.toUpperCase()}
+              <span className="block">
+                {photographerInfo.firstName.toUpperCase()}
+              </span>
+            
+              <span className="block mt-2">
+                {photographerInfo.lastName.toUpperCase()}
+              </span>
             </motion.h1>
 
             <motion.p
