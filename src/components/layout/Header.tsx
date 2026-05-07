@@ -1,7 +1,7 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu } from 'lucide-react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/components/ui/button';
@@ -10,62 +10,74 @@ import { photographerInfo } from '@/data/photographer';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'Projects', path: '/portfolio' },
-  { name: 'Experience', path: '/experience' },
-  { name: 'About', path: '/about' },
-  { name: 'Publications', path: '/publications' },
+  { name: 'Home',         sectionId: 'home' },
+  { name: 'Projects',     sectionId: 'projects' },
+  { name: 'Experience',   sectionId: 'experience' },
+  { name: 'Publications', sectionId: 'publications' },
 ];
 
 /**
- * Main header component with scroll-aware styling
- * Transparent on hero section, solid when scrolled
- * Mobile responsive with hamburger menu
+ * Tracks which section is currently in view by comparing scroll position
+ * against each section's top offset.
  */
+function useActiveSection(sectionIds: string[]) {
+  const [active, setActive] = useState(sectionIds[0]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Use 40% down the viewport as the trigger point
+      const trigger = window.scrollY + window.innerHeight * 0.4;
+
+      // Walk backwards through sections — whichever one we've passed is active
+      for (const id of [...sectionIds].reverse()) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= trigger) {
+          setActive(id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // run once on mount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [sectionIds]);
+
+  return active;
+}
+
 export function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isScrolled } = useScrollPosition();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
-  // Header is transparent only on homepage hero when not scrolled
-  const isTransparent = location.pathname === '/' && !isScrolled;
+
+  const sectionIds = navLinks.map(l => l.sectionId);
+  const activeSection = useActiveSection(sectionIds);
+
+  // Transparent only on the homepage hero when not scrolled
+  const isOnHome = location.pathname === '/';
+  const isTransparent = isOnHome && !isScrolled;
+
+  const handleNavClick = (e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault();
+    if (isOnHome) {
+      // Already on the single page — just scroll
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // On a sub-page (e.g. project detail) — navigate home then scroll via hash
+      navigate(`/#${sectionId}`);
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-        isTransparent
-          ? 'bg-transparent'
-          : 'bg-background/90 backdrop-blur-lg border-b border-border shadow-sm'
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link
-            to="/"
-            className={cn(
-              'text-lg font-light tracking-widest transition-all duration-300',
-              isTransparent
-                ? 'text-white hover:text-white/80'
-                : 'text-foreground hover:text-foreground/80'
-            )}
-          >
-            <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              {photographerInfo.name.toUpperCase()}
-            </motion.span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link, index) => (
+        'fix            {navLinks.map((link, index) => (
                 <motion.div
                   key={link.path}
                   initial={{ opacity: 0, y: -10 }}
