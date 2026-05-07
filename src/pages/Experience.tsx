@@ -7,7 +7,7 @@ const education = [
     title: 'MSc in Mechanical Engineering',
     organisation: 'TU Delft',
     period: '2022 – 2024',
-    description: 'Specialisation in BioMechanical Deisgn and master thesis on compliant mechanisms.',
+    description: 'Specialisation in BioMechanical Design and master thesis on compliant mechanisms.',
   },
   {
     title: 'BE(Hons) in Mechatronics Engineering',
