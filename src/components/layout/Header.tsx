@@ -77,29 +77,75 @@ export function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={cn(
-        'fix            {navLinks.map((link, index) => (
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+        isTransparent
+          ? 'bg-transparent'
+          : 'bg-background/90 backdrop-blur-lg border-b border-border shadow-sm'
+      )}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+
+          {/* Logo */}
+          
+            href="#home"
+            onClick={e => handleNavClick(e, 'home')}
+            className={cn(
+              'text-lg font-light tracking-widest transition-colors duration-300',
+              isTransparent
+                ? 'text-white hover:text-white/70'
+                : 'text-foreground hover:text-foreground/70'
+            )}
+          >
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              {photographerInfo.name.toUpperCase()}
+            </motion.span>
+          </a>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link, index) => {
+              const isActive = isOnHome && activeSection === link.sectionId;
+
+              return (
                 <motion.div
-                  key={link.path}
+                  key={link.sectionId}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 * index }}
                 >
-                  <Link
-                    to={link.path}
-                    className="relative text-lg leading-7 font-light tracking-wide text-white transition-colors duration-300 hover:text-white/80"
+                  
+                    href={`#${link.sectionId}`}
+                    onClick={e => handleNavClick(e, link.sectionId)}
+                    className={cn(
+                      // Base
+                      'relative text-sm font-light tracking-wide transition-colors duration-300 pb-1',
+                      // Underbar via after pseudo-element
+                      'after:absolute after:bottom-0 after:left-0 after:h-px after:transition-all after:duration-300',
+                      // Transparent hero state (dark background)
+                      isTransparent && [
+                        isActive
+                          ? 'text-white after:w-full after:bg-white'
+                          : 'text-white/70 hover:text-white after:w-0 hover:after:w-full hover:after:bg-white',
+                      ],
+                      // Solid header state (light or dark background)
+                      !isTransparent && [
+                        isActive
+                          ? 'text-foreground after:w-full after:bg-foreground'
+                          : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full hover:after:bg-foreground',
+                      ]
+                    )}
                   >
                     {link.name}
-                    {/* Active underline */}
-                    {location.pathname === link.path && (
-                      <motion.div
-                        layoutId="activeNav"
-                        className="absolute -bottom-1 left-0 right-0 h-px bg-white"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </Link>
+                  </a>
                 </motion.div>
-              ))}
+              );
+            })}
+
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -128,15 +174,20 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:w-80">
                 <nav className="flex flex-col gap-6 mt-8">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-lg leading-7 font-light tracking-wide text-foreground hover:text-foreground/80"
+                  {navLinks.map(link => (
+                    
+                      key={link.sectionId}
+                      href={`#${link.sectionId}`}
+                      onClick={e => handleNavClick(e, link.sectionId)}
+                      className={cn(
+                        'text-lg font-light tracking-wide transition-colors',
+                        activeSection === link.sectionId
+                          ? 'text-foreground'
+                          : 'text-muted-foreground hover:text-foreground'
+                      )}
                     >
                       {link.name}
-                    </Link>
+                    </a>
                   ))}
                 </nav>
               </SheetContent>
