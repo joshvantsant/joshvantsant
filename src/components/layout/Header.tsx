@@ -87,9 +87,9 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          
+          <a
             href="#home"
-            onClick={e => handleNavClick(e, 'home')}
+            onClick={(e) => handleNavClick(e, 'home')}
             className={cn(
               'text-lg font-light tracking-widest transition-colors duration-300',
               isTransparent
@@ -118,26 +118,22 @@ export function Header() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 * index }}
                 >
-                  
+                  <a
                     href={`#${link.sectionId}`}
-                    onClick={e => handleNavClick(e, link.sectionId)}
+                    onClick={(e) => handleNavClick(e, link.sectionId)}
                     className={cn(
-                      // Base
                       'relative text-sm font-light tracking-wide transition-colors duration-300 pb-1',
-                      // Underbar via after pseudo-element
                       'after:absolute after:bottom-0 after:left-0 after:h-px after:transition-all after:duration-300',
-                      // Transparent hero state (dark background)
-                      isTransparent && [
-                        isActive
+              
+                      isTransparent &&
+                        (isActive
                           ? 'text-white after:w-full after:bg-white'
-                          : 'text-white/70 hover:text-white after:w-0 hover:after:w-full hover:after:bg-white',
-                      ],
-                      // Solid header state (light or dark background)
-                      !isTransparent && [
-                        isActive
+                          : 'text-white/70 hover:text-white after:w-0 hover:after:w-full hover:after:bg-white'),
+              
+                      !isTransparent &&
+                        (isActive
                           ? 'text-foreground after:w-full after:bg-foreground'
-                          : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full hover:after:bg-foreground',
-                      ]
+                          : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full hover:after:bg-foreground')
                     )}
                   >
                     {link.name}
@@ -174,11 +170,11 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:w-80">
                 <nav className="flex flex-col gap-6 mt-8">
-                  {navLinks.map(link => (
-                    
+                  {navLinks.map((link) => (
+                    <a
                       key={link.sectionId}
                       href={`#${link.sectionId}`}
-                      onClick={e => handleNavClick(e, link.sectionId)}
+                      onClick={(e) => handleNavClick(e, link.sectionId)}
                       className={cn(
                         'text-lg font-light tracking-wide transition-colors',
                         activeSection === link.sectionId
