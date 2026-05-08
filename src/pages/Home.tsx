@@ -70,10 +70,10 @@ export default function Home() {
                   />
                 </div>
               <a
-                href="#experience"
+                href="#connect"
                 className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors group"
               >
-                <span>My Experience</span>
+                <span>Let's Connect</span>
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </a>
               </div>
