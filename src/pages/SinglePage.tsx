@@ -4,6 +4,7 @@ import Home from './Home';
 import Portfolio from './Portfolio';
 import Experience from './Experience';
 import Publications from './Publications';
+import Contact from './Contact';
 
 /**
  * Single-page layout — all sections stacked and scroll-snapped.
@@ -38,6 +39,10 @@ export default function SinglePage() {
       </section>
 
       <section id="publications">
+        <Publications />
+      </section>
+
+      <section id="contact">
         <Publications />
       </section>
     </main>
