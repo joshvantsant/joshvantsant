@@ -50,7 +50,7 @@ export default function Contact() {
           </ScrollReveal>
 
           {/* Contact Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-20">
             {contactLinks.map((item, index) => {
               const Icon = item.icon;
 
@@ -80,28 +80,16 @@ export default function Contact() {
           </div>
 
           {/* Bottom Info */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-10 mt-20 text-muted-foreground">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-full bg-accent">
-                <Mail className="size-5" />
+            <div className="flex justify-center mt-20 text-muted-foreground">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-full bg-accent">
+                  <MapPin className="size-5" />
+                </div>
+            
+                <p className="text-lg font-light">
+                  {photographerInfo.location}
+                </p>
               </div>
-
-              <a
-                href={`mailto:${photographerInfo.email}`}
-                className="text-lg font-light hover:text-foreground transition-colors"
-              >
-                {photographerInfo.email}
-              </a>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-full bg-accent">
-                <MapPin className="size-5" />
-              </div>
-
-              <p className="text-lg font-light">
-                {photographerInfo.location}
-              </p>
             </div>
           </div>
         </div>
