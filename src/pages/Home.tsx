@@ -6,7 +6,7 @@ import { ScrollIndicator } from '@/components/ui/ScrollIndicator';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';     // No longer used as now everything is in one page
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
@@ -69,14 +69,13 @@ export default function Home() {
                     }}
                   />
                 </div>
-
-                <Link
-                  to="/about"
-                  className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors group"
-                >
-                  <span>Learn More About Me</span>
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+              <a
+                href="#experience"
+                className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors group"
+              >
+                <span>My Experience</span>
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+              </a>
               </div>
             </ScrollReveal>
           </div>
@@ -136,7 +135,7 @@ export default function Home() {
               </p>
 
               <div className="flex items-center justify-center gap-6 mt-8">
-                <a
+                {/* <a
                   href="https://github.com/joshvantsant"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -144,7 +143,7 @@ export default function Home() {
                   aria-label="GitHub"
                 >
                   <Github className="size-5" />
-                </a>
+                </a> */}
 
                 <a
                   href="https://linkedin.com/in/joshvantsant"
