@@ -43,7 +43,7 @@ export default function SinglePage() {
       </section>
 
       <section id="contact">
-        <Publications />
+        <Contact />
       </section>
     </main>
   );
