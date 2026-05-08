@@ -80,16 +80,15 @@ export default function Contact() {
           </div>
 
           {/* Bottom Info */}
-            <div className="flex justify-center mt-20 text-muted-foreground">
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-full bg-accent">
-                  <MapPin className="size-5" />
-                </div>
-            
-                <p className="text-lg font-light">
-                  {photographerInfo.location}
-                </p>
+          <div className="flex justify-center mt-20 text-muted-foreground">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-full bg-accent">
+                <MapPin className="size-5" />
               </div>
+
+              <p className="text-lg font-light">
+                {photographerInfo.location}
+              </p>
             </div>
           </div>
         </div>
