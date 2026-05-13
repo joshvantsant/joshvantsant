@@ -56,7 +56,7 @@ export const projects: Project[] = [
       My primary role involved the fabrication and installation of custom automotive exhaust systems. This included cutting, bending, fitting, and welding steel pipework to specification using a range of workshop fabrication tools and equipment. \
       \
       Alongside this, I also manufactured custom wire racking products. This involved cutting heavy-gauge wire, forming components to shape using hydraulic bending equipment, spot welding assemblies, and applying protective plastic coatings to finished products.',
-    camera: 'Canon EOS R5',
+    camera: 'Manufacturing tolerances, hard skills with mechanical tooling',
     location: 'Christchurch',
     images: [
       {
@@ -91,43 +91,45 @@ export const projects: Project[] = [
   },
   {
     id: '3',
-    title: 'Architectural Visions',
-    category: 'architecture',
-    year: '2023',
-    slug: 'architectural-visions',
+    title: 'RoboCup',
+    category: 'student project',
+    slug: 'robocup',
     // Photo by E Vos on Unsplash
-    coverImage: 'https://images.unsplash.com/photo-1758543437543-6d61ca0fd530?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjR8&ixlib=rb-4.1.0&q=80&w=1080',
-    description: 'Modern architecture captured through a minimalist lens. This series focuses on geometric forms, materiality, and the interplay of structure with natural light.',
-    client: 'Architectural Digest',
-    camera: 'Sony A7R V',
-    location: 'International',
+    coverImage: '/images/RoboCup.jpg',
+    description: 'As part of a team of three, I designed and built a fully autonomous robot for a RoboCup-style arena competition. The robot navigated an arena independently to locate and collect small metallic weights, requiring tight integration of hardware, electronics, and software.\
+\
+\- Custom PCB — designed and fabricated a purpose\-built board integrating sensors, actuators, and the Arduino microcontroller \
+\- Multi-sensor control system — implemented in Arduino C++, handling navigation and collection logic autonomously \
+\- Full mechanical design — chassis designed in CAD and physically assembled and tested',
+    camera: 'CAD, C++, PCB design',
+    location: 'University of Canterbury',
     images: [
       {
         id: '3-1',
         // Photo by Zulfugar Karimov on Unsplash
-        src: 'https://images.unsplash.com/photo-1762344682624-176d89eb3bfe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjR8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Modern glass building facade',
+        src: '/images/RoboCup.jpg',
+        alt: 'Shot of our final embedded robot',
         aspectRatio: 'portrait'
       },
       {
         id: '3-2',
         // Photo by Jason Leung on Unsplash
-        src: 'https://images.unsplash.com/photo-1690927324729-bcf7d2b3ecac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjV8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Architectural interior with natural light',
+        src: '/images/Embedded_hardware_Robo.png',
+        alt: 'Schematic showing the embedded hardware in the robot controlled via Arduino',
         aspectRatio: 'landscape'
       },
       {
         id: '3-3',
         // Photo by Declan Sun on Unsplash
-        src: 'https://images.unsplash.com/photo-1752756351017-bbe91e0439a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjV8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Geometric concrete structure',
+        src: '/images/Solidworks drawing of RoboCup.PNG',
+        alt: 'SolidWorks render of the robot',
         aspectRatio: 'square'
       },
       {
         id: '3-4',
         // Photo by Alessandro Ricossa on Unsplash
-        src: 'https://images.unsplash.com/photo-1748940644273-47564655923f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjV8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Contemporary building at dusk',
+        src: '/images/PCB for audio amplifier.jpg',
+        alt: 'PCB schematic for our custom electronics',
         aspectRatio: 'landscape'
       }
     ]
