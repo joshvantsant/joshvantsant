@@ -3,16 +3,27 @@ import type { Project } from '@/types';
 export const projects: Project[] = [
   {
     id: '1',
-    title: 'Desert Solitude',
-    category: 'landscapes',
-    year: '2024',
-    slug: 'desert-solitude',
+    title: 'Compliant Mechanism',
+    category: 'thesis',
+    year: 'Master',
+    slug: 'compliant-mechanisms',
     // Photo by Zain Creations on Unsplash
     coverImage: 'https://images.unsplash.com/photo-1733496637708-9470e9c8cfe2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjB8&ixlib=rb-4.1.0&q=80&w=1080',
-    description: 'An exploration of the stark beauty and quiet majesty of the American Southwest. This series captures the interplay of light, shadow, and ancient geological formations that define the desert landscape.',
-    client: 'National Geographic',
+    description: '> *Full thesis results are under a company embargo and will be publicly available from October 2025. This page describes the work and skills involved without disclosing proprietary results.* \
+\
+\
+For my master thesis I worked with [Flexous Mechanisms](https://flexous.com), a company specialising in compliant mechanism design for precision applications. The project focused on designing and optimising compliant mechanisms for a watch chronograph. \
+\
+Compliant mechanisms achieve motion through controlled elastic deformation of flexible members rather than traditional rigid joints and bearings. This makes them ideal for precision instruments where backlash, friction, and lubrication are critical concerns.\
+\
+//Image here of ![Compliant mechanism of the oscillator](/images/Flexous.png) \
+\The project followed a complete engineering workflow:\
+1. **Design** — Developed candidate mechanism geometries in SolidWorks based on functional requirements for the chronograph mechanism \
+2. **Optimisation** — Used ANSYS APDL and MatLAB to perform structural and kinematic analysis, iterating on geometry to meet stiffness and deflection targets\
+3. **Fabrication** — Produced physical prototypes via 3D printing for validation \
+4. **Testing** — Conducted mechanical testing to verify real-world behaviour against simulation predictions',
     camera: 'Hasselblad X2D 100C',
-    location: 'Arizona & Utah',
+    location: 'Delft',
     images: [
       {
         id: '1-1',
@@ -48,6 +59,7 @@ export const projects: Project[] = [
     id: '2',
     title: 'Uniweld',
     category: 'Internships',
+    year: 'Bachelor',
     slug: 'uniweld',
     // Photo taken from company page
     coverImage: '/images/Uniweld.jpg',
@@ -93,6 +105,7 @@ export const projects: Project[] = [
     id: '3',
     title: 'RoboCup',
     category: 'student project',
+    year: 'Bachelor',
     slug: 'robocup',
     // Photo by E Vos on Unsplash
     coverImage: '/images/RoboCup.jpg',
