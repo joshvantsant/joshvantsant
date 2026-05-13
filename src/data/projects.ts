@@ -46,16 +46,18 @@ export const projects: Project[] = [
   },
   {
     id: '2',
-    title: 'Urban Portraits',
-    category: 'portraits',
-    year: '2024',
-    slug: 'urban-portraits',
-    // Photo by Bradley Andrews on Unsplash
-    coverImage: 'https://images.unsplash.com/photo-1761069234906-a7c77124f641?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjJ8&ixlib=rb-4.1.0&q=80&w=1080',
-    description: 'A portrait series celebrating the diversity and character of city dwellers. Each subject was photographed in their favorite urban location, revealing the intimate connection between people and their environment.',
-    client: 'The New York Times Magazine',
+    title: 'Uniweld',
+    category: 'Internships',
+    slug: 'uniweld',
+    // Photo taken from company page
+    coverImage: '/images/Uniweld.jpg',
+    description: 'Practical skills are an essential asset to every mechanical design engineer. It allows for real world experience to reinforce skills taught in a classroom and provides familiarity with different engineering concepts, tools, and processes required in manufacturing. I greatly appreciated therefore my summer internship spent at a local mechanics shop that allowed me to develop these core skills and further complement my mechanical design appitude. \
+      \
+      My primary role involved the fabrication and installation of custom automotive exhaust systems. This included cutting, bending, fitting, and welding steel pipework to specification using a range of workshop fabrication tools and equipment. \
+      \
+      Alongside this, I also manufactured custom wire racking products. This involved cutting heavy-gauge wire, forming components to shape using hydraulic bending equipment, spot welding assemblies, and applying protective plastic coatings to finished products.',
     camera: 'Canon EOS R5',
-    location: 'New York City',
+    location: 'Christchurch',
     images: [
       {
         id: '2-1',
