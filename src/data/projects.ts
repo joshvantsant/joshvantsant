@@ -61,30 +61,30 @@ export const projects: Project[] = [
     images: [
       {
         id: '2-1',
-        // Photo by ali mahmoodi on Unsplash
-        src: 'https://images.unsplash.com/photo-1559123988-ebd5228736b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjJ8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Portrait of young man in urban setting',
+        // Muffler system
+        src: '/images/muffler_system.jpeg',
+        alt: 'Image of finished muffler system',
         aspectRatio: 'portrait'
       },
       {
         id: '2-2',
-        // Photo by mouad bouallayel on Unsplash
-        src: 'https://images.unsplash.com/photo-1628173422874-0d18ff5bfb83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjN8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Professional portrait in natural light',
+        // hydraulic press
+        src: '/images/hydraulic_press.jpg',
+        alt: 'Image of tools used in workshop',
         aspectRatio: 'portrait'
       },
       {
         id: '2-3',
-        // Photo by Ivan Lenin on Unsplash
-        src: 'https://images.unsplash.com/photo-1581329318020-a226e3713ea8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjN8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Candid street portrait',
+        // Wire rack
+        src: '/images/spot_welding.jpg',
+        alt: 'Image of tools used for modifying wire racking',
         aspectRatio: 'square'
       },
       {
         id: '2-4',
-        // Photo by Elric Pxl on Unsplash
-        src: 'https://images.unsplash.com/photo-1651464416004-60ae4e4846d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjR8&ixlib=rb-4.1.0&q=80&w=1080',
-        alt: 'Portrait with city backdrop',
+        // Finished wire bend
+        src: '/images/wire_bending.jpg',
+        alt: 'Finished product of wire bending',
         aspectRatio: 'portrait'
       }
     ]
