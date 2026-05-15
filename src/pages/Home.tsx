@@ -34,13 +34,14 @@ export default function Home() {
             </motion.h1>
 
             <motion.p
-              className="text-xl md:text-2xl font-light tracking-wide text-muted-foreground"
+              className="text-lg md:text-xl font-light tracking-normal leading-relaxed text-muted-foreground max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4 }}
             >
               {photographerInfo.tagline}
             </motion.p>
+            
           </div>
 
           <motion.div
