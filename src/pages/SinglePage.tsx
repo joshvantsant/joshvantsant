@@ -7,42 +7,50 @@ import Publications from './Publications';
 import Contact from './Contact';
 
 /**
- * Single-page layout — all sections stacked and scroll-snapped.
- * Nav links scroll to each section by ID.
- * Hash in URL (e.g. /#projects) scrolls to the correct section on load.
+ * Single-page layout — all sections stacked vertically.
+ * Nav links use href="#<id>" to scroll to each section.
+ * If the URL already has a hash on load (e.g. /#projects), we scroll there.
+ *
+ * Section IDs:
+ *   #home        → landing / intro
+ *   #projects    → portfolio grid
+ *   #experience  → work & education timeline
+ *   #publications → papers / reports
+ *   #connect     → contact form
  */
 export default function SinglePage() {
   const location = useLocation();
 
-  // On mount, if there's a hash in the URL scroll to that section
   useEffect(() => {
-    const hash = window.location.hash.slice(1);
+    const hash = window.location.hash.slice(1); // strip the leading '#'
     if (hash) {
-      setTimeout(() => {
+      // Small delay lets React finish rendering before we try to scroll
+      const timer = setTimeout(() => {
         document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      }, 120);
+      return () => clearTimeout(timer);
     }
   }, [location.hash]);
 
   return (
     <main>
-      <section id="home">
+      <section id="home" aria-label="Introduction">
         <Home />
       </section>
 
-      <section id="projects">
+      <section id="projects" aria-label="Projects">
         <Portfolio />
       </section>
 
-      <section id="experience">
+      <section id="experience" aria-label="Experience">
         <Experience />
       </section>
 
-      <section id="publications">
+      <section id="publications" aria-label="Publications">
         <Publications />
       </section>
 
-      <section id="connect">
+      <section id="connect" aria-label="Contact">
         <Contact />
       </section>
     </main>
