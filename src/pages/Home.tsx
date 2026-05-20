@@ -466,12 +466,12 @@ function SideCard({
             transition={{ duration: 0.2 }}
             className="absolute bottom-0 left-0 right-0 p-3 space-y-0.5"
           >
-            <p className="text-white text-[11px] font-light leading-snug">
+            <p className="text-white text-sm font-light leading-snug">
               {highlight.title}
             </p>
 
             {highlight.date && (
-              <p className="text-white/55 text-[10px] font-light">
+              <p className="text-white/60 text-xs font-light">
                 {highlight.date}
               </p>
             )}
@@ -529,7 +529,7 @@ function CentreCard({
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
       <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1.5">
-        <p className="text-white text-sm font-light tracking-wide leading-snug">
+        <p className="text-white text-base font-light tracking-wide leading-snug">
           {highlight.title}
         </p>
 
