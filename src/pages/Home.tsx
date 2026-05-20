@@ -81,34 +81,8 @@ const stats = [
 
 const AUTOPLAY_MS = 4500;
 const total = highlights.length;
+
 const mod = (n: number, m: number) => ((n % m) + m) % m;
-
-// ─── Improved carousel animation ─────────────────────────────────────────────
-// Instead of sliding the entire row fully off-screen,
-// only shift enough for the next card position.
-// This creates a much smoother editorial-style motion.
-
-const SLIDE_DISTANCE = '28%';
-
-const rowVariants = {
-  enter: (d: number) => ({
-    x: d > 0 ? SLIDE_DISTANCE : `-${SLIDE_DISTANCE}`,
-    opacity: 0.92,
-  }),
-  center: {
-    x: '0%',
-    opacity: 1,
-  },
-  exit: (d: number) => ({
-    x: d > 0 ? `-${SLIDE_DISTANCE}` : SLIDE_DISTANCE,
-    opacity: 0.92,
-  }),
-};
-
-const rowTransition = {
-  duration: 0.75,
-  ease: [0.22, 1, 0.36, 1] as const,
-};
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -118,23 +92,22 @@ export default function Home() {
 
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [dir, setDir] = useState<1 | -1>(1);
 
-  const goTo = useCallback((next: number, direction: 1 | -1 = 1) => {
-    setDir(direction);
+  const goTo = useCallback((next: number) => {
     setCurrent(mod(next, total));
   }, []);
 
-  const prev = () => goTo(current - 1, -1);
+  const prev = () => goTo(current - 1);
 
   const next = useCallback(() => {
-    goTo(current + 1, 1);
+    goTo(current + 1);
   }, [current, goTo]);
 
   useEffect(() => {
     if (paused) return;
 
     const id = setInterval(next, AUTOPLAY_MS);
+
     return () => clearInterval(id);
   }, [paused, next]);
 
@@ -155,7 +128,10 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
             >
-              <span className="block">{firstName.toUpperCase()}</span>
+              <span className="block">
+                {firstName.toUpperCase()}
+              </span>
+
               <span className="block whitespace-nowrap">
                 {lastName.toUpperCase()}
               </span>
@@ -181,7 +157,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── About + Highlights + Stats ────────────────────────────── */}
+        {/* ── About + Highlights + Stats ───────────────────────────── */}
         <section className="py-16 md:py-20 px-6 lg:px-8 bg-background border-t border-border">
           <div className="max-w-4xl mx-auto space-y-10">
 
@@ -219,46 +195,30 @@ export default function Home() {
                 onMouseLeave={() => setPaused(false)}
               >
 
-                {/* Clipping window */}
                 <div className="overflow-hidden px-2 rounded-sm">
 
-                  <AnimatePresence
-                    initial={false}
-                    custom={dir}
-                    mode="wait"
-                  >
-                    <motion.div
-                      key={current}
-                      custom={dir}
-                      variants={rowVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={rowTransition}
-                      className="flex gap-4 items-center"
-                    >
+                  <div className="flex gap-4 items-center">
 
-                      {/* Left */}
-                      <SideCard
-                        highlight={highlights[mod(current - 1, total)]}
-                        side="left"
-                        onClick={prev}
-                      />
+                    {/* Left */}
+                    <SideCard
+                      highlight={highlights[mod(current - 1, total)]}
+                      side="left"
+                      onClick={prev}
+                    />
 
-                      {/* Centre */}
-                      <CentreCard
-                        highlight={highlights[current]}
-                      />
+                    {/* Centre */}
+                    <CentreCard
+                      highlight={highlights[current]}
+                    />
 
-                      {/* Right */}
-                      <SideCard
-                        highlight={highlights[mod(current + 1, total)]}
-                        side="right"
-                        onClick={next}
-                      />
+                    {/* Right */}
+                    <SideCard
+                      highlight={highlights[mod(current + 1, total)]}
+                      side="right"
+                      onClick={next}
+                    />
 
-                    </motion.div>
-                  </AnimatePresence>
+                  </div>
                 </div>
 
                 {/* Arrows */}
@@ -283,7 +243,7 @@ export default function Home() {
                   {highlights.map((_, i) => (
                     <button
                       key={i}
-                      onClick={() => goTo(i, i > current ? 1 : -1)}
+                      onClick={() => goTo(i)}
                       aria-label={`Go to highlight ${i + 1}`}
                       className="relative h-[3px] rounded-full overflow-hidden transition-all duration-300"
                       style={{
@@ -311,6 +271,7 @@ export default function Home() {
                     </button>
                   ))}
                 </div>
+
               </div>
             </ScrollReveal>
 
@@ -353,6 +314,7 @@ export default function Home() {
             <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
           </a>
         </div>
+
       </div>
     </>
   );
@@ -372,7 +334,14 @@ function SideCard({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <button
+    <motion.button
+      layout
+      transition={{
+        layout: {
+          duration: 0.7,
+          ease: [0.22, 1, 0.36, 1],
+        },
+      }}
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -440,17 +409,28 @@ function SideCard({
             : 'left-0 bg-gradient-to-r from-background/50 to-transparent'
         }`}
       />
-    </button>
+    </motion.button>
   );
 }
 
 // ─── Centre Card ──────────────────────────────────────────────────────────────
 
-function CentreCard({ highlight }: { highlight: Highlight }) {
+function CentreCard({
+  highlight,
+}: {
+  highlight: Highlight;
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div
+    <motion.div
+      layout
+      transition={{
+        layout: {
+          duration: 0.7,
+          ease: [0.22, 1, 0.36, 1],
+        },
+      }}
       className="relative flex-1 overflow-hidden rounded-sm aspect-[3/4]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -501,6 +481,6 @@ function CentreCard({ highlight }: { highlight: Highlight }) {
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   );
 }
