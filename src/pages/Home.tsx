@@ -28,13 +28,13 @@ const highlights: Highlight[] = [
     src: '/images/highlights/Graduation.jpg',
     title: 'MSc Graduation',
     detail: 'Mechanical Engineering — TU Delft',
-    date: '2025',
+    date: 'Oct 2024',
   },
   {
     src: '/images/Flexous.png',
     title: 'Compliant Mechanism Testing',
     detail: 'Master thesis with Flexous Mechanisms',
-    date: '2024',
+    date: "'23 - '24",
   },
   {
     src: '/images/RoboCup.jpg',
@@ -84,6 +84,32 @@ const total = highlights.length;
 
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
+// ─── Shared animation ────────────────────────────────────────────────────────
+// Each slot animates independently inside its own overflow-hidden container.
+// x: ±100% is now relative to the slot width ONLY.
+
+const slideVariants = {
+  enter: (dir: 1 | -1) => ({
+    x: dir > 0 ? '100%' : '-100%',
+    opacity: 0,
+  }),
+
+  center: {
+    x: '0%',
+    opacity: 1,
+  },
+
+  exit: (dir: 1 | -1) => ({
+    x: dir > 0 ? '-100%' : '100%',
+    opacity: 0,
+  }),
+};
+
+const slideTransition = {
+  duration: 0.52,
+  ease: [0.4, 0, 0.2, 1] as const,
+};
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function Home() {
@@ -92,15 +118,17 @@ export default function Home() {
 
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [dir, setDir] = useState<1 | -1>(1);
 
-  const goTo = useCallback((next: number) => {
+  const goTo = useCallback((next: number, direction: 1 | -1 = 1) => {
+    setDir(direction);
     setCurrent(mod(next, total));
   }, []);
 
-  const prev = () => goTo(current - 1);
+  const prev = () => goTo(current - 1, -1);
 
   const next = useCallback(() => {
-    goTo(current + 1);
+    goTo(current + 1, 1);
   }, [current, goTo]);
 
   useEffect(() => {
@@ -195,30 +223,90 @@ export default function Home() {
                 onMouseLeave={() => setPaused(false)}
               >
 
-                <div className="overflow-hidden px-2 rounded-sm">
+                <div className="flex gap-4 items-center">
 
-                  <div className="flex gap-4 items-center">
+                  {/* LEFT SLOT */}
+                  <div className="relative flex-[0_0_22%] overflow-hidden rounded-sm aspect-[3/4]">
 
-                    {/* Left */}
-                    <SideCard
-                      highlight={highlights[mod(current - 1, total)]}
-                      side="left"
-                      onClick={prev}
-                    />
-
-                    {/* Centre */}
-                    <CentreCard
-                      highlight={highlights[current]}
-                    />
-
-                    {/* Right */}
-                    <SideCard
-                      highlight={highlights[mod(current + 1, total)]}
-                      side="right"
-                      onClick={next}
-                    />
+                    <AnimatePresence
+                      initial={false}
+                      custom={dir}
+                      mode="popLayout"
+                    >
+                      <motion.div
+                        key={`left-${current}`}
+                        custom={dir}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={slideTransition}
+                        className="absolute inset-0"
+                      >
+                        <SideCard
+                          highlight={highlights[mod(current - 1, total)]}
+                          side="left"
+                          onClick={prev}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
 
                   </div>
+
+                  {/* CENTRE SLOT */}
+                  <div className="relative flex-1 overflow-hidden rounded-sm aspect-[3/4]">
+
+                    <AnimatePresence
+                      initial={false}
+                      custom={dir}
+                      mode="popLayout"
+                    >
+                      <motion.div
+                        key={`center-${current}`}
+                        custom={dir}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={slideTransition}
+                        className="absolute inset-0"
+                      >
+                        <CentreCard
+                          highlight={highlights[current]}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+
+                  </div>
+
+                  {/* RIGHT SLOT */}
+                  <div className="relative flex-[0_0_22%] overflow-hidden rounded-sm aspect-[3/4]">
+
+                    <AnimatePresence
+                      initial={false}
+                      custom={dir}
+                      mode="popLayout"
+                    >
+                      <motion.div
+                        key={`right-${current}`}
+                        custom={dir}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={slideTransition}
+                        className="absolute inset-0"
+                      >
+                        <SideCard
+                          highlight={highlights[mod(current + 1, total)]}
+                          side="right"
+                          onClick={next}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+
+                  </div>
+
                 </div>
 
                 {/* Arrows */}
@@ -243,7 +331,9 @@ export default function Home() {
                   {highlights.map((_, i) => (
                     <button
                       key={i}
-                      onClick={() => goTo(i)}
+                      onClick={() =>
+                        goTo(i, i > current ? 1 : -1)
+                      }
                       aria-label={`Go to highlight ${i + 1}`}
                       className="relative h-[3px] rounded-full overflow-hidden transition-all duration-300"
                       style={{
@@ -334,19 +424,12 @@ function SideCard({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <motion.button
-      layout
-      transition={{
-        layout: {
-          duration: 0.7,
-          ease: [0.22, 1, 0.36, 1],
-        },
-      }}
+    <button
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       aria-label={`Go to ${highlight.title}`}
-      className="relative flex-[0_0_22%] overflow-hidden rounded-sm aspect-[3/4] cursor-pointer focus:outline-none"
+      className="relative w-full h-full overflow-hidden rounded-sm cursor-pointer focus:outline-none"
     >
       <motion.img
         src={highlight.src}
@@ -409,7 +492,7 @@ function SideCard({
             : 'left-0 bg-gradient-to-r from-background/50 to-transparent'
         }`}
       />
-    </motion.button>
+    </button>
   );
 }
 
@@ -423,15 +506,8 @@ function CentreCard({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <motion.div
-      layout
-      transition={{
-        layout: {
-          duration: 0.7,
-          ease: [0.22, 1, 0.36, 1],
-        },
-      }}
-      className="relative flex-1 overflow-hidden rounded-sm aspect-[3/4]"
+    <div
+      className="relative w-full h-full overflow-hidden rounded-sm"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -481,6 +557,6 @@ function CentreCard({
           )}
         </AnimatePresence>
       </div>
-    </motion.div>
+    </div>
   );
 }
