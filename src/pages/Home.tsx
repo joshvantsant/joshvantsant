@@ -215,24 +215,19 @@ export default function Home() {
               </div>
             </ScrollReveal>
 
-            {/* ── Carousel ─────────────────────────────────────────── */}
+            {/* ── Carousel ─────────────────────────────────────────────────── */}
             <ScrollReveal delay={0.1}>
               <div
                 className="relative"
                 onMouseEnter={() => setPaused(true)}
                 onMouseLeave={() => setPaused(false)}
               >
-
-                <div className="flex gap-4 items-center">
-
-                  {/* LEFT SLOT */}
-                  <div className="relative flex-[0_0_22%] overflow-hidden rounded-sm aspect-[3/4]">
-
-                    <AnimatePresence
-                      initial={false}
-                      custom={dir}
-                      mode="popLayout"
-                    >
+                {/* GRID LAYOUT (equal cards) */}
+                <div className="grid grid-cols-3 gap-4 items-stretch">
+            
+                  {/* ── LEFT SLOT ───────────────────────────── */}
+                  <div className="relative overflow-hidden rounded-sm aspect-[3/4]">
+                    <AnimatePresence initial={false} custom={dir}>
                       <motion.div
                         key={`left-${current}`}
                         custom={dir}
@@ -245,22 +240,15 @@ export default function Home() {
                       >
                         <SideCard
                           highlight={highlights[mod(current - 1, total)]}
-                          side="left"
                           onClick={prev}
                         />
                       </motion.div>
                     </AnimatePresence>
-
                   </div>
-
-                  {/* CENTRE SLOT */}
-                  <div className="relative flex-1 overflow-hidden rounded-sm aspect-[3/4]">
-
-                    <AnimatePresence
-                      initial={false}
-                      custom={dir}
-                      mode="popLayout"
-                    >
+            
+                  {/* ── CENTER SLOT ─────────────────────────── */}
+                  <div className="relative overflow-hidden rounded-sm aspect-[3/4]">
+                    <AnimatePresence initial={false} custom={dir}>
                       <motion.div
                         key={`center-${current}`}
                         custom={dir}
@@ -271,22 +259,14 @@ export default function Home() {
                         transition={slideTransition}
                         className="absolute inset-0"
                       >
-                        <CentreCard
-                          highlight={highlights[current]}
-                        />
+                        <CentreCard highlight={highlights[current]} />
                       </motion.div>
                     </AnimatePresence>
-
                   </div>
-
-                  {/* RIGHT SLOT */}
-                  <div className="relative flex-[0_0_22%] overflow-hidden rounded-sm aspect-[3/4]">
-
-                    <AnimatePresence
-                      initial={false}
-                      custom={dir}
-                      mode="popLayout"
-                    >
+            
+                  {/* ── RIGHT SLOT ──────────────────────────── */}
+                  <div className="relative overflow-hidden rounded-sm aspect-[3/4]">
+                    <AnimatePresence initial={false} custom={dir}>
                       <motion.div
                         key={`right-${current}`}
                         custom={dir}
@@ -299,17 +279,15 @@ export default function Home() {
                       >
                         <SideCard
                           highlight={highlights[mod(current + 1, total)]}
-                          side="right"
                           onClick={next}
                         />
                       </motion.div>
                     </AnimatePresence>
-
                   </div>
-
+            
                 </div>
-
-                {/* Arrows */}
+            
+                {/* ── Arrows ───────────────────────────────── */}
                 <button
                   onClick={prev}
                   aria-label="Previous highlight"
@@ -317,7 +295,7 @@ export default function Home() {
                 >
                   <ChevronLeft className="size-4" />
                 </button>
-
+            
                 <button
                   onClick={next}
                   aria-label="Next highlight"
@@ -325,26 +303,20 @@ export default function Home() {
                 >
                   <ChevronRight className="size-4" />
                 </button>
-
-                {/* Dots */}
+            
+                {/* ── Dots ─────────────────────────────────── */}
                 <div className="flex items-center justify-center gap-2 mt-4">
                   {highlights.map((_, i) => (
                     <button
                       key={i}
-                      onClick={() =>
-                        goTo(i, i > current ? 1 : -1)
-                      }
-                      aria-label={`Go to highlight ${i + 1}`}
+                      onClick={() => goTo(i)}
                       className="relative h-[3px] rounded-full overflow-hidden transition-all duration-300"
-                      style={{
-                        width: i === current ? 28 : 10,
-                      }}
+                      style={{ width: i === current ? 28 : 10 }}
                     >
                       <span className="absolute inset-0 bg-border rounded-full" />
-
+            
                       {i === current && !paused && (
                         <motion.span
-                          key={`fill-${current}`}
                           className="absolute inset-0 bg-foreground rounded-full origin-left"
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
@@ -354,14 +326,13 @@ export default function Home() {
                           }}
                         />
                       )}
-
+            
                       {i === current && paused && (
                         <span className="absolute inset-0 bg-foreground rounded-full" />
                       )}
                     </button>
                   ))}
                 </div>
-
               </div>
             </ScrollReveal>
 
@@ -414,11 +385,9 @@ export default function Home() {
 
 function SideCard({
   highlight,
-  side,
   onClick,
 }: {
   highlight: Highlight;
-  side: 'left' | 'right';
   onClick: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
@@ -428,33 +397,26 @@ function SideCard({
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      aria-label={`Go to ${highlight.title}`}
-      className="relative w-full h-full overflow-hidden rounded-sm cursor-pointer focus:outline-none"
+      className="relative w-full h-full overflow-hidden rounded-sm cursor-pointer"
     >
       <motion.img
         src={highlight.src}
         alt={highlight.title}
-        loading="lazy"
-        decoding="async"
         className="absolute inset-0 w-full h-full object-cover"
         animate={{
-          scale: hovered ? 1.06 : 1,
-          filter: hovered ? 'grayscale(0%)' : 'grayscale(55%)',
+          scale: hovered ? 1.03 : 1,
+          filter: hovered ? 'grayscale(0%)' : 'grayscale(40%)',
+          opacity: 0.92,
         }}
-        transition={{
-          duration: 0.35,
-          ease: 'easeOut',
-        }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
       />
 
       <motion.div
         className="absolute inset-0 bg-black"
         animate={{
-          opacity: hovered ? 0.2 : 0.48,
+          opacity: hovered ? 0.25 : 0.45,
         }}
-        transition={{
-          duration: 0.3,
-        }}
+        transition={{ duration: 0.3 }}
       />
 
       <AnimatePresence>
@@ -463,8 +425,7 @@ function SideCard({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
-            transition={{ duration: 0.2 }}
-            className="absolute bottom-0 left-0 right-0 p-3 space-y-0.5"
+            className="absolute bottom-0 left-0 right-0 p-3 space-y-1"
           >
             <p className="text-white text-sm font-light leading-snug">
               {highlight.title}
@@ -477,32 +438,20 @@ function SideCard({
             )}
 
             {highlight.detail && (
-              <p className="text-white/55 text-[10px] font-light leading-snug line-clamp-2">
+              <p className="text-white/60 text-xs font-light leading-snug">
                 {highlight.detail}
               </p>
             )}
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div
-        className={`absolute inset-y-0 w-6 pointer-events-none ${
-          side === 'left'
-            ? 'right-0 bg-gradient-to-l from-background/50 to-transparent'
-            : 'left-0 bg-gradient-to-r from-background/50 to-transparent'
-        }`}
-      />
     </button>
   );
 }
 
 // ─── Centre Card ──────────────────────────────────────────────────────────────
 
-function CentreCard({
-  highlight,
-}: {
-  highlight: Highlight;
-}) {
+function CentreCard({ highlight }: { highlight: Highlight }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -514,22 +463,19 @@ function CentreCard({
       <motion.img
         src={highlight.src}
         alt={highlight.title}
-        loading="lazy"
-        decoding="async"
         className="absolute inset-0 w-full h-full object-cover"
         animate={{
-          scale: hovered ? 1.05 : 1,
+          scale: hovered ? 1.03 : 1,
+          filter: 'grayscale(0%)',
+          opacity: 1,
         }}
-        transition={{
-          duration: 0.45,
-          ease: 'easeOut',
-        }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1.5">
-        <p className="text-white text-base font-light tracking-wide leading-snug">
+      <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1">
+        <p className="text-white text-sm font-light leading-snug">
           {highlight.title}
         </p>
 
@@ -539,7 +485,6 @@ function CentreCard({
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
-              transition={{ duration: 0.22 }}
               className="space-y-0.5"
             >
               {highlight.date && (
