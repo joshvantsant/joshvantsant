@@ -14,19 +14,18 @@ import {
   Briefcase,
 } from 'lucide-react';
 
-// ─── Highlight photos ─────────────────────────────────────────────────────────
-// Add your own photos to /public/images/ and update the list below.
+// ─── Types & data ─────────────────────────────────────────────────────────────
 
 interface Highlight {
   src: string;
-  title: string;       // always visible (one line)
-  detail?: string;     // revealed on hover
-  date?: string;       // revealed on hover
+  title: string;   // shown on centre card + revealed on hover for side cards
+  detail?: string; // revealed on hover
+  date?: string;   // revealed on hover
 }
 
 const highlights: Highlight[] = [
   {
-    src: '/images/highlights/Graduation.jpg',         // TODO: your actual graduation photo
+    src: '/images/highlights/Graduation.jpg',
     title: 'MSc Graduation',
     detail: 'Mechanical Engineering — TU Delft',
     date: '2025',
@@ -57,25 +56,29 @@ const highlights: Highlight[] = [
   },
 ];
 
-// ─── Stat row ─────────────────────────────────────────────────────────────────
-
 const stats = [
-  { icon: GraduationCap, value: 'MSc',       label: 'Mechanical Engineering' },
-  { icon: Building2,     value: 'TU Delft',  label: 'Graduate university'    },
-  { icon: MapPin,        value: 'NZ → NL',   label: 'Canterbury to Delft'   },
-  { icon: Briefcase,     value: '5+',        label: 'Projects & internships' },
+  { icon: GraduationCap, value: 'MSc in Mechanical Engineering',      label: 'TU Delft' },
+  { icon: Building2,     value: 'TU Delft', label: 'Research Engineer'    },
+  { icon: MapPin,        value: 'NZ → NL',  label: 'Canterbury to Delft'   },
+  { icon: Briefcase,     value: '5+',       label: 'Projects & internships' },
 ];
-
-// ─── Constants ────────────────────────────────────────────────────────────────
 
 const AUTOPLAY_MS = 4500;
 const total = highlights.length;
+const mod = (n: number, m: number) => ((n % m) + m) % m;
 
-function mod(n: number, m: number) {
-  return ((n % m) + m) % m;
-}
+// ─── Slide animation variants ─────────────────────────────────────────────────
+// The entire 3-card row slides as one unit so all cards move in perfect sync.
 
-// ─── Component ────────────────────────────────────────────────────────────────
+const rowVariants = {
+  enter: (d: number) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0.6 }),
+  center: { x: '0%', opacity: 1 },
+  exit:  (d: number) => ({ x: d > 0 ? '-100%' : '100%', opacity: 0.6 }),
+};
+
+const rowTransition = { duration: 0.42, ease: [0.32, 0, 0.67, 0] as const };
+
+// ─── Main component ───────────────────────────────────────────────────────────
 
 export default function Home() {
   const [firstName, ...rest] = photographerInfo.name.split(' ');
@@ -99,16 +102,13 @@ export default function Home() {
     return () => clearInterval(id);
   }, [paused, next]);
 
-  const prevIdx = mod(current - 1, total);
-  const nextIdx = mod(current + 1, total);
-
   return (
     <>
       <SEOHead />
 
       <div className="min-h-screen">
 
-        {/* ── Hero ────────────────────────────────────────────────────────── */}
+        {/* ── Hero ──────────────────────────────────────────────────────────── */}
         <section className="relative h-screen w-full flex items-center justify-center bg-background">
           <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle,_#ffffff_1px,_transparent_1px)] bg-[size:32px_32px]" />
 
@@ -143,7 +143,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── About me + Highlights ─────────────────────────────────────── */}
+        {/* ── About + Highlights + Stats ────────────────────────────────────── */}
         <section className="py-16 md:py-20 px-6 lg:px-8 bg-background border-t border-border">
           <div className="max-w-4xl mx-auto space-y-10">
 
@@ -170,37 +170,66 @@ export default function Home() {
               </div>
             </ScrollReveal>
 
-            {/* ── 3-up Highlight Carousel ────────────────────────────────── */}
+            {/* ── Carousel ──────────────────────────────────────────────────── */}
             <ScrollReveal delay={0.1}>
               <div
                 className="relative"
                 onMouseEnter={() => setPaused(true)}
                 onMouseLeave={() => setPaused(false)}
               >
-                {/* Slides */}
-                <div className="flex items-stretch gap-3">
+                {/* Clipping window — hides the sliding row outside its bounds */}
+                <div className="overflow-hidden rounded-sm">
+                  <AnimatePresence initial={false} custom={dir} mode="popLayout">
+                    {/*
+                     * Key on `current` so the entire row is replaced and slides
+                     * as a single unit — all three cards move at exactly the same
+                     * rate with zero jerk.
+                     */}
+                    <motion.div
+                      key={current}
+                      custom={dir}
+                      variants={rowVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={rowTransition}
+                      className="flex gap-3"
+                    >
+                      {/* Left — previous */}
+                      <SideCard
+                        highlight={highlights[mod(current - 1, total)]}
+                        side="left"
+                        onClick={prev}
+                      />
 
-                  {/* ── Left (prev) ──────────────────────────────────────── */}
-                  <SideCard
-                    highlight={highlights[prevIdx]}
-                    onClick={prev}
-                    side="left"
-                  />
+                      {/* Centre — active */}
+                      <CentreCard highlight={highlights[current]} />
 
-                  {/* ── Centre (active) ───────────────────────────────────── */}
-                  <CentreCard
-                    highlight={highlights[current]}
-                    paused={paused}
-                    dir={dir}
-                  />
-
-                  {/* ── Right (next) ─────────────────────────────────────── */}
-                  <SideCard
-                    highlight={highlights[nextIdx]}
-                    onClick={next}
-                    side="right"
-                  />
+                      {/* Right — next */}
+                      <SideCard
+                        highlight={highlights[mod(current + 1, total)]}
+                        side="right"
+                        onClick={next}
+                      />
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
+
+                {/* Prev / next arrow buttons — sit outside the clipping div */}
+                <button
+                  onClick={prev}
+                  aria-label="Previous highlight"
+                  className="absolute -left-4 top-[42%] -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-background border border-border text-foreground hover:bg-muted transition-colors shadow-sm"
+                >
+                  <ChevronLeft className="size-4" />
+                </button>
+                <button
+                  onClick={next}
+                  aria-label="Next highlight"
+                  className="absolute -right-4 top-[42%] -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-background border border-border text-foreground hover:bg-muted transition-colors shadow-sm"
+                >
+                  <ChevronRight className="size-4" />
+                </button>
 
                 {/* Dot indicators */}
                 <div className="flex items-center justify-center gap-2 mt-4">
@@ -228,26 +257,10 @@ export default function Home() {
                     </button>
                   ))}
                 </div>
-
-                {/* Prev / next arrow buttons */}
-                <button
-                  onClick={prev}
-                  aria-label="Previous highlight"
-                  className="absolute -left-4 top-[42%] -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-background border border-border text-foreground hover:bg-muted transition-colors shadow-sm"
-                >
-                  <ChevronLeft className="size-4" />
-                </button>
-                <button
-                  onClick={next}
-                  aria-label="Next highlight"
-                  className="absolute -right-4 top-[42%] -translate-y-1/2 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-background border border-border text-foreground hover:bg-muted transition-colors shadow-sm"
-                >
-                  <ChevronRight className="size-4" />
-                </button>
               </div>
             </ScrollReveal>
 
-            {/* ── Stat row (below highlights) ───────────────────────────── */}
+            {/* ── Stat row ──────────────────────────────────────────────────── */}
             <ScrollReveal delay={0.2}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-border">
                 {stats.map(({ icon: Icon, value, label }) => (
@@ -283,20 +296,17 @@ export default function Home() {
   );
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Side card ────────────────────────────────────────────────────────────────
+// No title by default — hover reveals title, date, and detail.
 
-/**
- * Side card — dimmed, clickable to navigate, shows title only.
- * Hover reveals detail text and lifts slightly.
- */
 function SideCard({
   highlight,
-  onClick,
   side,
+  onClick,
 }: {
   highlight: Highlight;
-  onClick: () => void;
   side: 'left' | 'right';
+  onClick: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
 
@@ -307,7 +317,6 @@ function SideCard({
       onMouseLeave={() => setHovered(false)}
       aria-label={`Go to ${highlight.title}`}
       className="relative flex-[0_0_22%] overflow-hidden rounded-sm aspect-[3/4] cursor-pointer focus:outline-none"
-      style={{ minWidth: 0 }}
     >
       <motion.img
         src={highlight.src}
@@ -315,77 +324,62 @@ function SideCard({
         loading="lazy"
         decoding="async"
         className="absolute inset-0 w-full h-full object-cover"
-        animate={{ scale: hovered ? 1.06 : 1 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
-        style={{ filter: hovered ? 'grayscale(0%)' : 'grayscale(60%)' }}
+        animate={{
+          scale: hovered ? 1.06 : 1,
+          filter: hovered ? 'grayscale(0%)' : 'grayscale(55%)',
+        }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
       />
 
-      {/* Dim overlay — lightens slightly on hover */}
+      {/* Base dim */}
       <motion.div
         className="absolute inset-0 bg-black"
-        animate={{ opacity: hovered ? 0.25 : 0.5 }}
+        animate={{ opacity: hovered ? 0.2 : 0.48 }}
         transition={{ duration: 0.3 }}
       />
 
-      {/* Caption */}
-      <div className="absolute bottom-0 left-0 right-0 p-3">
-        <p className="text-white/80 text-[11px] font-light leading-snug line-clamp-1">
-          {highlight.title}
-        </p>
+      {/* Hover caption — slides up from bottom */}
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.2 }}
+            className="absolute bottom-0 left-0 right-0 p-3 space-y-0.5"
+          >
+            <p className="text-white text-[11px] font-light leading-snug">
+              {highlight.title}
+            </p>
+            {highlight.date && (
+              <p className="text-white/55 text-[10px] font-light">{highlight.date}</p>
+            )}
+            {highlight.detail && (
+              <p className="text-white/55 text-[10px] font-light leading-snug line-clamp-2">
+                {highlight.detail}
+              </p>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 4 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-0.5 mt-1"
-            >
-              {highlight.date && (
-                <p className="text-white/50 text-[10px] font-light">{highlight.date}</p>
-              )}
-              {highlight.detail && (
-                <p className="text-white/50 text-[10px] font-light leading-snug line-clamp-2">
-                  {highlight.detail}
-                </p>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Edge fade toward centre */}
+      {/* Inner-edge fade to blend into background */}
       <div
-        className={`absolute inset-y-0 w-8 ${
+        className={`absolute inset-y-0 w-6 pointer-events-none ${
           side === 'left'
-            ? 'right-0 bg-gradient-to-l from-background/60 to-transparent'
-            : 'left-0 bg-gradient-to-r from-background/60 to-transparent'
+            ? 'right-0 bg-gradient-to-l from-background/50 to-transparent'
+            : 'left-0 bg-gradient-to-r from-background/50 to-transparent'
         }`}
       />
     </button>
   );
 }
 
-/**
- * Centre card — full brightness, slide-animated, hover reveals detail text.
- */
-function CentreCard({
-  highlight,
-  paused,
-  dir,
-}: {
-  highlight: Highlight;
-  paused: boolean;
-  dir: 1 | -1;
-}) {
-  const [hovered, setHovered] = useState(false);
+// ─── Centre card ──────────────────────────────────────────────────────────────
+// Always shows title — hover reveals date and detail.
 
-  const slideVariants = {
-    enter: (d: number) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit:   (d: number) => ({ x: d > 0 ? '-60%' : '60%', opacity: 0 }),
-  };
+function CentreCard({ highlight }: { highlight: Highlight }) {
+  const [hovered, setHovered] = useState(false);
 
   return (
     <div
@@ -393,59 +387,46 @@ function CentreCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <AnimatePresence initial={false} custom={dir} mode="popLayout">
-        <motion.div
-          key={highlight.src}
-          custom={dir}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.42, ease: [0.32, 0, 0.67, 0] }}
-          className="absolute inset-0"
-        >
-          <motion.img
-            src={highlight.src}
-            alt={highlight.title}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover"
-            animate={{ scale: hovered ? 1.05 : 1 }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-          />
+      <motion.img
+        src={highlight.src}
+        alt={highlight.title}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+        animate={{ scale: hovered ? 1.05 : 1 }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
+      />
 
-          {/* Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+      {/* Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
-          {/* Caption */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1.5">
-            <p className="text-white text-sm font-light tracking-wide leading-snug">
-              {highlight.title}
-            </p>
+      {/* Caption */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1.5">
+        <p className="text-white text-sm font-light tracking-wide leading-snug">
+          {highlight.title}
+        </p>
 
-            <AnimatePresence>
-              {hovered && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 4 }}
-                  transition={{ duration: 0.22 }}
-                  className="space-y-0.5"
-                >
-                  {highlight.date && (
-                    <p className="text-white/60 text-xs font-light">{highlight.date}</p>
-                  )}
-                  {highlight.detail && (
-                    <p className="text-white/60 text-xs font-light leading-relaxed">
-                      {highlight.detail}
-                    </p>
-                  )}
-                </motion.div>
+        <AnimatePresence>
+          {hovered && (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.22 }}
+              className="space-y-0.5"
+            >
+              {highlight.date && (
+                <p className="text-white/60 text-xs font-light">{highlight.date}</p>
               )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+              {highlight.detail && (
+                <p className="text-white/60 text-xs font-light leading-relaxed">
+                  {highlight.detail}
+                </p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
