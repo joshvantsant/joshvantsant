@@ -203,28 +203,30 @@ export default function Home() {
                     }}
                   />
                 </div>
-                
-                <div className="mt-6 flex items-center justify-between w-full max-w-md mx-auto">
-                  <ScrollReveal delay={0.15}>
-                  {/* Let's Connect (left) */}
-                  <a
-                    href="#connect"
-                    className="group inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors"
-                  >
-                    <span>Let's Connect</span>
-                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                
-                  {/* View Projects (right) */}
-                  <a
-                    href="#projects"
-                    className="group inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors"
-                  >
-                    <span>View My Projects</span>
-                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                
-                </div>
+
+                <ScrollReveal delay={0.15}>
+                  <div className="mt-6 flex items-center justify-between w-full max-w-md mx-auto">
+                    
+                    {/* Let's Connect (left) */}
+                    <a
+                      href="#connect"
+                      className="group inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors"
+                    >
+                      <span>Let's Connect</span>
+                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  
+                    {/* View Projects (right) */}
+                    <a
+                      href="#projects"
+                      className="group inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors"
+                    >
+                      <span>View My Projects</span>
+                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  
+                  </div>
+                </ScrollReveal>
                 
               </div>
             </ScrollReveal>
