@@ -18,9 +18,9 @@ import {
 
 interface Highlight {
   src: string;
-  title: string;   // shown on centre card + revealed on hover for side cards
-  detail?: string; // revealed on hover
-  date?: string;   // revealed on hover
+  title: string;
+  detail?: string;
+  date?: string;
 }
 
 const highlights: Highlight[] = [
@@ -57,26 +57,58 @@ const highlights: Highlight[] = [
 ];
 
 const stats = [
-  { icon: GraduationCap, value: 'MSc in Mechanical Engineering',      label: 'TU Delft' },
-  { icon: Building2,     value: 'TU Delft', label: 'Research Engineer'    },
-  { icon: MapPin,        value: 'NZ → NL',  label: 'Canterbury to Delft'   },
-  { icon: Briefcase,     value: '5+',       label: 'Projects & internships' },
+  {
+    icon: GraduationCap,
+    value: 'MSc in Mechanical Engineering',
+    label: 'TU Delft',
+  },
+  {
+    icon: Building2,
+    value: 'TU Delft',
+    label: 'Research Engineer',
+  },
+  {
+    icon: MapPin,
+    value: 'NZ → NL',
+    label: 'Canterbury to Delft',
+  },
+  {
+    icon: Briefcase,
+    value: '5+',
+    label: 'Projects & internships',
+  },
 ];
 
 const AUTOPLAY_MS = 4500;
 const total = highlights.length;
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
-// ─── Slide animation variants ─────────────────────────────────────────────────
-// The entire 3-card row slides as one unit so all cards move in perfect sync.
+// ─── Improved carousel animation ─────────────────────────────────────────────
+// Instead of sliding the entire row fully off-screen,
+// only shift enough for the next card position.
+// This creates a much smoother editorial-style motion.
+
+const SLIDE_DISTANCE = '28%';
 
 const rowVariants = {
-  enter: (d: number) => ({ x: d > 0 ? '100%' : '-100%', opacity: 0.6 }),
-  center: { x: '0%', opacity: 1 },
-  exit:  (d: number) => ({ x: d > 0 ? '-100%' : '100%', opacity: 0.6 }),
+  enter: (d: number) => ({
+    x: d > 0 ? SLIDE_DISTANCE : `-${SLIDE_DISTANCE}`,
+    opacity: 0.92,
+  }),
+  center: {
+    x: '0%',
+    opacity: 1,
+  },
+  exit: (d: number) => ({
+    x: d > 0 ? `-${SLIDE_DISTANCE}` : SLIDE_DISTANCE,
+    opacity: 0.92,
+  }),
 };
 
-const rowTransition = { duration: 0.42, ease: [0.32, 0, 0.67, 0] as const };
+const rowTransition = {
+  duration: 0.75,
+  ease: [0.22, 1, 0.36, 1] as const,
+};
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -85,8 +117,8 @@ export default function Home() {
   const lastName = rest.join(' ');
 
   const [current, setCurrent] = useState(0);
-  const [paused,  setPaused]  = useState(false);
-  const [dir,     setDir]     = useState<1 | -1>(1);
+  const [paused, setPaused] = useState(false);
+  const [dir, setDir] = useState<1 | -1>(1);
 
   const goTo = useCallback((next: number, direction: 1 | -1 = 1) => {
     setDir(direction);
@@ -94,10 +126,14 @@ export default function Home() {
   }, []);
 
   const prev = () => goTo(current - 1, -1);
-  const next = useCallback(() => goTo(current + 1, 1), [current, goTo]);
+
+  const next = useCallback(() => {
+    goTo(current + 1, 1);
+  }, [current, goTo]);
 
   useEffect(() => {
     if (paused) return;
+
     const id = setInterval(next, AUTOPLAY_MS);
     return () => clearInterval(id);
   }, [paused, next]);
@@ -108,7 +144,7 @@ export default function Home() {
 
       <div className="min-h-screen">
 
-        {/* ── Hero ──────────────────────────────────────────────────────────── */}
+        {/* ── Hero ───────────────────────────────────────────────────── */}
         <section className="relative h-screen w-full flex items-center justify-center bg-background">
           <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle,_#ffffff_1px,_transparent_1px)] bg-[size:32px_32px]" />
 
@@ -120,7 +156,9 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <span className="block">{firstName.toUpperCase()}</span>
-              <span className="block whitespace-nowrap">{lastName.toUpperCase()}</span>
+              <span className="block whitespace-nowrap">
+                {lastName.toUpperCase()}
+              </span>
             </motion.h1>
 
             <motion.p
@@ -143,7 +181,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* ── About + Highlights + Stats ────────────────────────────────────── */}
+        {/* ── About + Highlights + Stats ────────────────────────────── */}
         <section className="py-16 md:py-20 px-6 lg:px-8 bg-background border-t border-border">
           <div className="max-w-4xl mx-auto space-y-10">
 
@@ -153,6 +191,7 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-light tracking-wide">
                   About Me
                 </h2>
+
                 <div className="text-lg font-light leading-relaxed text-muted-foreground">
                   <p
                     dangerouslySetInnerHTML={{
@@ -160,31 +199,34 @@ export default function Home() {
                     }}
                   />
                 </div>
+
                 <a
                   href="#connect"
                   className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors group"
                 >
                   <span>Let's Connect</span>
+
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
             </ScrollReveal>
 
-            {/* ── Carousel ──────────────────────────────────────────────────── */}
+            {/* ── Carousel ─────────────────────────────────────────── */}
             <ScrollReveal delay={0.1}>
               <div
                 className="relative"
                 onMouseEnter={() => setPaused(true)}
                 onMouseLeave={() => setPaused(false)}
               >
-                {/* Clipping window — hides the sliding row outside its bounds */}
-                <div className="overflow-hidden rounded-sm">
-                  <AnimatePresence initial={false} custom={dir} mode="popLayout">
-                    {/*
-                     * Key on `current` so the entire row is replaced and slides
-                     * as a single unit — all three cards move at exactly the same
-                     * rate with zero jerk.
-                     */}
+
+                {/* Clipping window */}
+                <div className="overflow-hidden px-2 rounded-sm">
+
+                  <AnimatePresence
+                    initial={false}
+                    custom={dir}
+                    mode="wait"
+                  >
                     <motion.div
                       key={current}
                       custom={dir}
@@ -193,29 +235,33 @@ export default function Home() {
                       animate="center"
                       exit="exit"
                       transition={rowTransition}
-                      className="flex gap-3"
+                      className="flex gap-4 items-center"
                     >
-                      {/* Left — previous */}
+
+                      {/* Left */}
                       <SideCard
                         highlight={highlights[mod(current - 1, total)]}
                         side="left"
                         onClick={prev}
                       />
 
-                      {/* Centre — active */}
-                      <CentreCard highlight={highlights[current]} />
+                      {/* Centre */}
+                      <CentreCard
+                        highlight={highlights[current]}
+                      />
 
-                      {/* Right — next */}
+                      {/* Right */}
                       <SideCard
                         highlight={highlights[mod(current + 1, total)]}
                         side="right"
                         onClick={next}
                       />
+
                     </motion.div>
                   </AnimatePresence>
                 </div>
 
-                {/* Prev / next arrow buttons — sit outside the clipping div */}
+                {/* Arrows */}
                 <button
                   onClick={prev}
                   aria-label="Previous highlight"
@@ -223,6 +269,7 @@ export default function Home() {
                 >
                   <ChevronLeft className="size-4" />
                 </button>
+
                 <button
                   onClick={next}
                   aria-label="Next highlight"
@@ -231,7 +278,7 @@ export default function Home() {
                   <ChevronRight className="size-4" />
                 </button>
 
-                {/* Dot indicators */}
+                {/* Dots */}
                 <div className="flex items-center justify-center gap-2 mt-4">
                   {highlights.map((_, i) => (
                     <button
@@ -239,18 +286,25 @@ export default function Home() {
                       onClick={() => goTo(i, i > current ? 1 : -1)}
                       aria-label={`Go to highlight ${i + 1}`}
                       className="relative h-[3px] rounded-full overflow-hidden transition-all duration-300"
-                      style={{ width: i === current ? 28 : 10 }}
+                      style={{
+                        width: i === current ? 28 : 10,
+                      }}
                     >
                       <span className="absolute inset-0 bg-border rounded-full" />
+
                       {i === current && !paused && (
                         <motion.span
                           key={`fill-${current}`}
                           className="absolute inset-0 bg-foreground rounded-full origin-left"
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
-                          transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
+                          transition={{
+                            duration: AUTOPLAY_MS / 1000,
+                            ease: 'linear',
+                          }}
                         />
                       )}
+
                       {i === current && paused && (
                         <span className="absolute inset-0 bg-foreground rounded-full" />
                       )}
@@ -260,15 +314,23 @@ export default function Home() {
               </div>
             </ScrollReveal>
 
-            {/* ── Stat row ──────────────────────────────────────────────────── */}
+            {/* ── Stats ───────────────────────────────────────────── */}
             <ScrollReveal delay={0.2}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-border">
                 {stats.map(({ icon: Icon, value, label }) => (
-                  <div key={label} className="flex flex-col items-center gap-2 text-center">
-                    <Icon className="size-5 text-muted-foreground" strokeWidth={1.5} />
+                  <div
+                    key={label}
+                    className="flex flex-col items-center gap-2 text-center"
+                  >
+                    <Icon
+                      className="size-5 text-muted-foreground"
+                      strokeWidth={1.5}
+                    />
+
                     <p className="text-xl md:text-2xl font-light tracking-wide text-foreground">
                       {value}
                     </p>
+
                     <p className="text-xs text-muted-foreground font-light tracking-wide uppercase leading-snug">
                       {label}
                     </p>
@@ -280,24 +342,23 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA to projects */}
+        {/* CTA */}
         <div className="flex justify-center pb-16 px-6">
           <a
             href="#projects"
             className="group inline-flex items-center gap-2 text-lg font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors"
           >
             <span>View My Projects</span>
+
             <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
           </a>
         </div>
-
       </div>
     </>
   );
 }
 
-// ─── Side card ────────────────────────────────────────────────────────────────
-// No title by default — hover reveals title, date, and detail.
+// ─── Side Card ────────────────────────────────────────────────────────────────
 
 function SideCard({
   highlight,
@@ -328,17 +389,22 @@ function SideCard({
           scale: hovered ? 1.06 : 1,
           filter: hovered ? 'grayscale(0%)' : 'grayscale(55%)',
         }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
+        transition={{
+          duration: 0.35,
+          ease: 'easeOut',
+        }}
       />
 
-      {/* Base dim */}
       <motion.div
         className="absolute inset-0 bg-black"
-        animate={{ opacity: hovered ? 0.2 : 0.48 }}
-        transition={{ duration: 0.3 }}
+        animate={{
+          opacity: hovered ? 0.2 : 0.48,
+        }}
+        transition={{
+          duration: 0.3,
+        }}
       />
 
-      {/* Hover caption — slides up from bottom */}
       <AnimatePresence>
         {hovered && (
           <motion.div
@@ -351,9 +417,13 @@ function SideCard({
             <p className="text-white text-[11px] font-light leading-snug">
               {highlight.title}
             </p>
+
             {highlight.date && (
-              <p className="text-white/55 text-[10px] font-light">{highlight.date}</p>
+              <p className="text-white/55 text-[10px] font-light">
+                {highlight.date}
+              </p>
             )}
+
             {highlight.detail && (
               <p className="text-white/55 text-[10px] font-light leading-snug line-clamp-2">
                 {highlight.detail}
@@ -363,7 +433,6 @@ function SideCard({
         )}
       </AnimatePresence>
 
-      {/* Inner-edge fade to blend into background */}
       <div
         className={`absolute inset-y-0 w-6 pointer-events-none ${
           side === 'left'
@@ -375,8 +444,7 @@ function SideCard({
   );
 }
 
-// ─── Centre card ──────────────────────────────────────────────────────────────
-// Always shows title — hover reveals date and detail.
+// ─── Centre Card ──────────────────────────────────────────────────────────────
 
 function CentreCard({ highlight }: { highlight: Highlight }) {
   const [hovered, setHovered] = useState(false);
@@ -393,14 +461,17 @@ function CentreCard({ highlight }: { highlight: Highlight }) {
         loading="lazy"
         decoding="async"
         className="absolute inset-0 w-full h-full object-cover"
-        animate={{ scale: hovered ? 1.05 : 1 }}
-        transition={{ duration: 0.45, ease: 'easeOut' }}
+        animate={{
+          scale: hovered ? 1.05 : 1,
+        }}
+        transition={{
+          duration: 0.45,
+          ease: 'easeOut',
+        }}
       />
 
-      {/* Gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
 
-      {/* Caption */}
       <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1.5">
         <p className="text-white text-sm font-light tracking-wide leading-snug">
           {highlight.title}
@@ -416,8 +487,11 @@ function CentreCard({ highlight }: { highlight: Highlight }) {
               className="space-y-0.5"
             >
               {highlight.date && (
-                <p className="text-white/60 text-xs font-light">{highlight.date}</p>
+                <p className="text-white/60 text-xs font-light">
+                  {highlight.date}
+                </p>
               )}
+
               {highlight.detail && (
                 <p className="text-white/60 text-xs font-light leading-relaxed">
                   {highlight.detail}
