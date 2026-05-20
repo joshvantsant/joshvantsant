@@ -203,13 +203,24 @@ export default function Home() {
                     }}
                   />
                 </div>
-
+                {/* Let's Connect link */}
                 <a
                   href="#connect"
                   className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors group"
                 >
                   <span>Let's Connect</span>
 
+                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                </a>
+
+                <span className="text-muted-foreground/40 select-none">/</span>
+
+                {/* View Projects */}
+                <a
+                  href="#projects"
+                  className="group inline-flex items-center gap-2 text-foreground hover:text-muted-foreground transition-colors"
+                >
+                  <span>View My Projects</span>
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
@@ -363,18 +374,6 @@ export default function Home() {
 
           </div>
         </section>
-
-        {/* CTA */}
-        <div className="flex justify-center pb-16 px-6">
-          <a
-            href="#projects"
-            className="group inline-flex items-center gap-2 text-lg font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors"
-          >
-            <span>View My Projects</span>
-
-            <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
-          </a>
-        </div>
 
       </div>
     </>
