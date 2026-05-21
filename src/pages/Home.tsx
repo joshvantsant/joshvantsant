@@ -26,9 +26,9 @@ interface Highlight {
 const highlights: Highlight[] = [
   {
     src: '/images/highlights/Graduation.jpg',
-    title: 'MSc Graduation',
+    title: 'Master Graduation',
     detail: 'Graduating with a Masters in Mechanical Engineering from TU Delft',
-    date: 'Oct 2024',
+    date: "Oct '24",
   },
   {
     src: '/images/compliant_thesis/Flexous.png',
@@ -37,13 +37,13 @@ const highlights: Highlight[] = [
     date: "'23 - '24",
   },
   {
-    src: '/images/highlights/Uganda.jpg',
-    title: 'Joint Interdisciplinary Design',
+    src: '/images/highlights/Uganda.jpeg',
+    title: 'Joint Interdisciplinary Project',
     detail: "Interdisciplinary project travelling to Uganda to explore the sustainability of Vela's medical device",
     date: "Sep '23 - Nov '23",
   },
   {
-    src: '/images/highlights/honours.jpeg',
+    src: '/images/highlights/honours.jpg',
     title: 'Masters Honours Programme',
     detail: 'During my masters, I completed an additional honours programme researching mechanical design and AI',
     date: "'23 - '24",
@@ -57,7 +57,7 @@ const highlights: Highlight[] = [
   {
     src: '/images/SMA_overview.jpg',
     title: 'Soft Robotic Research',
-    detail: 'Post graduate research into interplanetory soft robotic grippers',
+    detail: 'Post graduate research into interplanetory soft robotic grippers at the BioMorphic Intelligence Lab',
     date: "'25 - '26",
   },
 ];
