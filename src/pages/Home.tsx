@@ -25,7 +25,7 @@ interface Highlight {
 
 const highlights: Highlight[] = [
   {
-    src: '/images/highlights/Graduation.jpg',
+    src: '/images/highlights/Graduation.webp',
     title: 'Master Graduation',
     detail: 'Graduating with a Masters in Mechanical Engineering from TU Delft',
     date: "Oct '24",
@@ -37,19 +37,19 @@ const highlights: Highlight[] = [
     date: "'23 - '24",
   },
   {
-    src: '/images/highlights/Uganda.jpeg',
+    src: '/images/highlights/Uganda.webp',
     title: 'Joint Interdisciplinary Project',
     detail: "Interdisciplinary project travelling to Uganda to explore the sustainability of Vela's medical device",
     date: "Sep '23 - Nov '23",
   },
   {
-    src: '/images/highlights/honours.jpg',
+    src: '/images/highlights/honours.webp',
     title: 'Masters Honours Programme',
     detail: 'During my masters, I completed an additional honours programme researching mechanical design and AI',
     date: "'23 - '24",
   },
   {
-    src: '/images/highlights/Mont_blanc.jpeg',
+    src: '/images/highlights/Mont_blanc.webp',
     title: 'Summitting Mont Blanc',
     detail: 'Summitted Mont Blanc in the summer of 2024',
     date: "Sep '24",
