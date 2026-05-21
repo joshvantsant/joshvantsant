@@ -91,7 +91,7 @@ const slideVariants = {
 };
 
 const slideTransition = {
-  duration: 0.45,
+  duration: 0.75,
   ease: [0.4, 0, 0.2, 1] as const,
 };
 
