@@ -212,7 +212,7 @@ export default function Home() {
                  * just hides the outermost portion so focus stays on the centre.
                  */}
                 <div className="relative">
-                  <div className="grid grid-cols-[1fr_1.3fr_1fr] gap-3">
+                  <div className="grid grid-cols-[1fr_1.15fr_1fr] gap-3">
 
                     {/* ── Left slot ─────────────────────────────────────────── */}
                     <div className="relative overflow-hidden rounded-sm aspect-[3/4]">
